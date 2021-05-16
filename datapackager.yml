@@ -1,0 +1,5 @@
+configuration:
+  files: {}
+  objects: data
+  render_root:
+    tmp: '743237'
