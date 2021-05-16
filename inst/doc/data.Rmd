@@ -68,18 +68,7 @@ data <-
     # Milliseconds to minutes
     across(total_time, ~ .x / 60000),
     across(where(shirthesis::check_numeric), as.numeric),
-    ## Rename participants with name typos. Done with subject IDs, but
-    ## originally looked up using participant-provided names.
-    across(
-      subject,
-      ~ .x %>%
-        recode(
-          "yyl3hu396mxbd0h" = "xdbuanpfohscux0",
-          "xqf9sv2ageyaq0a" = "xdbuanpfohscux0",
-          "28oopgbl2xktzh6" = "octhyvo3kjxkepw",
-          "tzjrpbyzxmzzaw5" = "yzv1alx3tr5890b"
-        )
-    ),
+    rename_typos(sona),
     sample = "sona"
   ) %>%
   rename(
@@ -89,11 +78,11 @@ data <-
   ) %>%
   # Remove duplicates, retaining earliest copy, then removing participant
   # names and emails.
-  group_by(subject) %>%
+  group_by(sona) %>%
   mutate(date_rank = dense_rank(datetime)) %>%
   filter(date_rank == 1) %>%
   ungroup() %>%
-  shirthesis::add_id_column(subject) %>%
+  shirthesis::add_id_column(sona) %>%
   select(-c(address, sona))
 ```
 
