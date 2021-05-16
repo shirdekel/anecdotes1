@@ -1,0 +1,100 @@
+---
+title: Clean anecdotes 1 data
+author: Shir Dekel
+date: '`r format(Sys.time())`'
+output_format: html_document
+vignette: >
+  %\VignetteIndexEntry{Clean anecdotes 1 data}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+Load packages and functions
+
+```{r}
+source(DataPackageR::project_path("packages.R"))
+project_path("R") %>%
+  list.files(full.names = TRUE) %>%
+  lapply(source)
+```
+
+Clean data
+
+```{r}
+data_raw_filtered <-
+  project_extdata_path("pavlovia") %>%
+  import_data_anecdotes_1()
+
+names_to <- c("task", "question")
+names_pattern <- "(.*)_q_(.*)"
+
+data <-
+  data_raw_filtered %>%
+  group_by(subject, align_condition, anecdote_condition, dateCreated) %>%
+  nest() %>%
+  mutate(
+    df = map(data, get_responses, names_to, names_pattern),
+    total_time = map_dbl(data, shirthesis::get_time),
+    data = NULL
+  ) %>%
+  unnest(df) %>%
+  filter(!str_detect(sona, "test")) %>%
+  ungroup() %>%
+  pivot_wider(
+    names_from = c("task", "question"),
+    values_from = "value"
+  ) %>%
+  mutate(
+    across(
+      align_condition,
+      ~ .x %>%
+        recode(
+          "lowA" = "low",
+          "highA" = "high"
+        )
+    ),
+    align_condition = case_when(
+      (align_condition == "low" | align_condition == "high") &
+        anecdote_condition == "statistics" ~ "NA",
+      TRUE ~ align_condition
+    ),
+    across(
+      c(
+        align_condition,
+        anecdote_condition
+      ),
+      as.factor
+    ),
+    # Milliseconds to minutes
+    across(total_time, ~ .x / 60000),
+    across(where(shirthesis::check_numeric), as.numeric),
+    ## Rename participants with name typos. Done with subject IDs, but
+    ## originally looked up using participant-provided names.
+    across(
+      subject,
+      ~ .x %>%
+        recode(
+          "yyl3hu396mxbd0h" = "xdbuanpfohscux0",
+          "xqf9sv2ageyaq0a" = "xdbuanpfohscux0",
+          "28oopgbl2xktzh6" = "octhyvo3kjxkepw",
+          "tzjrpbyzxmzzaw5" = "yzv1alx3tr5890b"
+        )
+    ),
+    sample = "sona"
+  ) %>%
+  rename(
+    "alignment" = align_condition,
+    "anecdote" = anecdote_condition,
+    "datetime" = dateCreated
+  ) %>%
+  # Remove duplicates, retaining earliest copy, then removing participant
+  # names and emails.
+  group_by(subject) %>%
+  mutate(date_rank = dense_rank(datetime)) %>%
+  filter(date_rank == 1) %>%
+  ungroup() %>%
+  shirthesis::add_id_column(subject) %>%
+  select(-c(address, sona))
+```
+
+

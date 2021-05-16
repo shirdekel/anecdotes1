@@ -1,5 +1,7 @@
 configuration:
-  files: {}
+  files:
+    data.Rmd:
+      enabled: yes
   objects: data
   render_root:
     tmp: '743237'
