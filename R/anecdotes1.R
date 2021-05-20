@@ -1,15 +1,16 @@
 #' anecdotes1
-#' A data package for anecdotes1.
+#' A data package for the Anecdotes 1 experiment.
 #' @docType package
 #' @aliases anecdotes1-package
-#' @title Package Title
+#' @title Anecdotes 1 experiment
 #' @name anecdotes1
-#' @description A description of the data package
+#' @description Data, materials, and experiment code for the Anecdotes 1 experiment.
 #' @details Use \code{data(package='anecdotes1')$results[, 3]} to see a list of available data sets in this data package
 #'     and/or DataPackageR::load_all
 #' _datasets() to load them.
 #' @seealso
 #' \link{power}
+#' \link{data}
 NULL
 
 
@@ -45,7 +46,7 @@ NULL
 #' \item{sample}{}
 #' \item{date_rank}{}
 #' }
-#' @source The data comes from________________________.
+#' @source The data was collected using Prolific.
 #' @seealso
 #' \link{anecdotes1}
 NULL
