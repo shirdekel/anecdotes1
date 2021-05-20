@@ -2,6 +2,10 @@ configuration:
   files:
     data.Rmd:
       enabled: yes
-  objects: data
+    power.Rmd:
+      enabled: yes
+  objects:
+  - data
+  - power
   render_root:
     tmp: '743237'

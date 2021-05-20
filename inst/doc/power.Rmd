@@ -1,0 +1,24 @@
+---
+title: Anecdotes 1 power analysis.
+author: Shir Dekel
+date: '`r format(Sys.time())`'
+output_format: html_document
+vignette: >
+  %\VignetteIndexEntry{Anecdotes 1 power analysis.}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+Call `power` target
+
+```{r}
+power <-
+  drake::readd(
+    power,
+    cache = drake::drake_cache(
+      DataPackageR::project_path(".drake")
+    )
+  )
+```
+
+
