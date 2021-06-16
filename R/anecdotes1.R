@@ -17,6 +17,7 @@ NULL
 
 
 
+
 #' Detailed description of the data
 #' @name data
 #' @docType data
@@ -50,6 +51,7 @@ NULL
 #' @seealso
 #' \link{anecdotes1}
 NULL
+
 
 
 

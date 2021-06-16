@@ -83,7 +83,9 @@ data <-
   filter(date_rank == 1) %>%
   ungroup() %>%
   shirthesis::add_id_column(sona) %>%
-  select(-c(address, sona))
+  select(-c(address, sona)) %>%
+  ## Remove under 18s (only one 16 year old)
+  filter(age < 18)
 ```
 
 

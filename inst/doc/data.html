@@ -166,43 +166,16 @@ pre code {
 
 <h1 class="title toc-ignore">Clean anecdotes 1 data</h1>
 <h4 class="author">Shir Dekel</h4>
-<h4 class="date">2021-05-19 16:38:44</h4>
+<h4 class="date">2021-06-16 14:31:13</h4>
 
 </div>
 
 
 <p>Load packages and functions</p>
 <pre class="r"><code>source(DataPackageR::project_path(&quot;packages.R&quot;))</code></pre>
-<pre><code>## • {drake} is superseded: https://books.ropensci.org/targets/drake.html
-## • Consider {targets} instead: https://docs.ropensci.org/targets/
-## • Effective 2021-01-21</code></pre>
-<pre><code>## Loading required package: lme4</code></pre>
-<pre><code>## Loading required package: Matrix</code></pre>
-<pre><code>## 
-## Attaching package: &#39;Matrix&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
-## 
-##     expand, pack, unpack</code></pre>
-<pre><code>## The following object is masked from &#39;package:drake&#39;:
-## 
-##     expand</code></pre>
-<pre><code>## Registered S3 methods overwritten by &#39;car&#39;:
-##   method                          from
-##   influence.merMod                lme4
-##   cooks.distance.influence.merMod lme4
-##   dfbeta.influence.merMod         lme4
-##   dfbetas.influence.merMod        lme4</code></pre>
-<pre><code>## ************
-## Welcome to afex. For support visit: http://afex.singmann.science/</code></pre>
-<pre><code>## - Functions for ANOVAs: aov_car(), aov_ez(), and aov_4()
-## - Methods for calculating p-values with mixed(): &#39;KR&#39;, &#39;S&#39;, &#39;LRT&#39;, and &#39;PB&#39;
-## - &#39;afex_aov&#39; and &#39;mixed&#39; objects can be passed to emmeans() for follow-up tests
-## - NEWS: library(&#39;emmeans&#39;) now needs to be called explicitly!
-## - Get and set global package options with: afex_options()
-## - Set orthogonal sum-to-zero contrasts globally: set_sum_contrasts()
-## - For example analyses see: browseVignettes(&quot;afex&quot;)
-## ************</code></pre>
+<pre><code>## [conflicted] Removing existing preference</code></pre>
 <pre><code>## [conflicted] Will prefer dplyr::filter over any other package</code></pre>
+<pre><code>## [conflicted] Removing existing preference</code></pre>
 <pre><code>## [conflicted] Will prefer purrr::flatten over any other package</code></pre>
 <pre class="r"><code>project_path(&quot;R&quot;) %&gt;%
   list.files(full.names = TRUE) %&gt;%
@@ -513,7 +486,9 @@ data &lt;-
   filter(date_rank == 1) %&gt;%
   ungroup() %&gt;%
   shirthesis::add_id_column(sona) %&gt;%
-  select(-c(address, sona))</code></pre>
+  select(-c(address, sona)) %&gt;%
+  ## Remove under 18s (only one 16 year old)
+  filter(age &lt; 18)</code></pre>
 
 
 
